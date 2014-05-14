@@ -1,0 +1,36 @@
+ec2:
+  ssh_interface: private_ips
+  id: {{ pillar['aws']['AWS_ACCESS_KEY_ID'] }}
+  key: {{ pillar['aws']['AWS_SECRET_ACCESS_KEY'] }}
+
+  # Make sure this key is owned by root with permissions 0400.
+  private_key: /home/{{ pillar['home']['user'] }}/.aws/keys/{{ pillar['aws']['ec2']['rsa_keyname'] }}.pem
+  keyname: {{ pillar['aws']['ec2']['rsa_keyname'] }}
+
+  location: {{ pillar['aws']['region'] }}
+  # availability_zone: ap-southeast-1b
+
+  # Configure which user to use to run the deploy script. This setting is
+  # dependent upon the AMI that is used to deploy. It is usually safer to
+  # configure this individually in a profile, than globally. Typical users
+  # are:
+  #
+  # Amazon Linux -> ec2-user
+  # RHEL         -> ec2-user
+  # CentOS       -> ec2-user
+  # Ubuntu       -> ubuntu
+  #
+  # ssh_username: ec2-user
+
+  # iam_profile: 'my other profile name'
+
+  # clean up on termination
+  rename_on_destroy: True
+  del_root_vol_on_destroy: True
+  del_all_vols_on_destroy: True
+
+  # salt-cloud --list-images ec2
+  # full list of images on EC2 is extremely large, narrow by owner
+  owner: aws-marketplace
+
+  provider: ec2

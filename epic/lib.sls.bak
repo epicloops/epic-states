@@ -1,0 +1,36 @@
+include:
+  - langs.python2.python-dev
+  - libpq-dev
+  - virtualenv
+
+epiclib-config:
+  file:
+    - managed
+    - name: /home/{{ pillar['home']['user'] }}/.epic/config
+    - source: salt://epic/config
+    - template: jinja
+    - makedirs: True
+    - user: {{ pillar['home']['user'] }}
+    - group: {{ pillar['home']['group'] }}
+
+epiclib-src:
+  file:
+    - recurse
+    - name: /home/{{ pillar['home']['user'] }}/epiclib
+    - source: salt://epiclib
+    - include_empty: True
+    - user: {{ pillar['home']['user'] }}
+    - group: {{ pillar['home']['group'] }}
+
+epiclib-install:
+  cmd:
+    - run
+    - name: . venv/bin/activate && pip install -r ./epiclib/requirements.txt ./epiclib
+    - cwd: /home/{{ pillar['home']['user'] }}
+    - user: {{ pillar['home']['user'] }}
+    - group: {{ pillar['home']['group'] }}
+    - require:
+      - file: /home/{{ pillar['home']['user'] }}/epiclib
+      - pkg: python-dev
+      - pkg: libpq-dev
+      - sls: virtualenv

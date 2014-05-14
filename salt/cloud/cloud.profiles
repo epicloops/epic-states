@@ -1,0 +1,13 @@
+{% for cluster in pillar['project']['servers'] %}
+{{ cluster['cluster'] }}:
+  provider: {{ cluster['provider'] }}
+  image: {{ pillar['aws']['ec2']['ami'] }}
+  size: {{ cluster['size'] }}
+  securitygroup:
+  {% for sg in cluster['securitygroups'] %}
+    - {{ sg }}
+  {% endfor %}
+  ssh_username: {{ cluster['ssh_username'] }}
+  minion:
+    master: {{grains['ip_interfaces']['eth0'][0]}}
+{% endfor %}

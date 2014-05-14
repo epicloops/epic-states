@@ -1,0 +1,6 @@
+{% for cluster in pillar['project']['servers'] %}
+{{ cluster['cluster'] }}:
+  {% for n in range(cluster['nodes']) %}
+  - epic-{{ cluster['cluster'] }}{{ '%02d' % n }}-qa
+  {% endfor %}
+{% endfor %}

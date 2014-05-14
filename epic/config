@@ -1,0 +1,10 @@
+{
+    "SQLALCHEMY_DATABASE_URI": "{{ pillar['aws']['rds']['uri'] }}",
+    "AWS_ACCESS_KEY_ID": "{{ pillar['aws']['AWS_ACCESS_KEY_ID'] }}",
+    "AWS_SECRET_ACCESS_KEY": "{{ pillar['aws']['AWS_SECRET_ACCESS_KEY'] }}",
+    "AWS_REGION": "{{ pillar['aws']['region'] }}",
+    "AWS_S3_BUCKET": "{{ pillar['project']['s3']['bucket'] }}",
+    "CRAWLERA_USER": "{{ pillar['crawlera']['user'] }}",
+    "CRAWLERA_PASS": "{{ pillar['crawlera']['pass'] }}",
+    "ECHONEST_API_KEY": "{{ pillar['echonest']['api_key'] }}"
+}
